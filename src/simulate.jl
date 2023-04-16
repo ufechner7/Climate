@@ -1,5 +1,4 @@
-using Plots
-
+using PythonPlot
 # plot the yearly CO2 emmisions for producing 6.44 TWh per year from gas or wind
 # first scenary: until 2040 100% wind energy
 
@@ -53,13 +52,18 @@ function calc_scenario(turbines_per_year, prn=false)
         co2 = s.wind_co2 + s.gas_co2
         Y[i] = co2/1e6
         if prn
-            println(i+2020, " CO2 emmisions: $co2 tons")
+            println(i+2020, " CO2 emmissions: $co2 tons")
         end
     end
     X, Y
 end
 
+fig = figure()
 X, Y = calc_scenario(32, true)
-plot(X, Y, ylims=(0,Inf), label="yearly CO2 emmissions [Mt]")
+plot(X, Y,  label="Scenario 1 [Mt]")
 X1, Y1 = calc_scenario(0)
-plot!(X, Y1, label="yearly emmisions without turbines [Mt]")
+plot(X, Y1, label="Reference [Mt]")
+grid("on")
+ylim(0, 12)
+title("Yearly CO2 emmissions")
+legend()
